@@ -1,0 +1,14 @@
+import lists
+import disque
+
+# d = disque.Disque()
+
+d = []
+
+# print(d)
+
+disque.insert(d,4)
+
+# x = [3,2,1]
+# x = (4,)+x
+print(d)

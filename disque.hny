@@ -1,0 +1,28 @@
+import lists
+
+def Disque() returns d:
+  d = []
+  
+
+
+def insert(d,v):
+  atomically !d = (v,) + d
+    
+
+
+def delete(d) returns result:
+  atomically: 
+    if len(d) == 0:
+      result = None
+    else: 
+      result = (!d)[0]  
+      del (!d)[0] 
+
+def next(d) returns result:
+  atomically: 
+    if len(d) == 0:
+      result = None
+    else:
+      result = (!d)[0]
+      !d = lists.subseq(d,1,len(d)) + (result,)
+
