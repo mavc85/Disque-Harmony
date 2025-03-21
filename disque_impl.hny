@@ -1,0 +1,46 @@
+from synch import Lock, acquire, release
+from alloc import malloc, free
+
+def Disque() returns d:
+  d = {.head: None, .tail: None, .lock: Lock()}
+
+def insert(d,v):
+  acquire(?d->lock)
+  let new = malloc({.val: v, .next: None}):
+    if d->head == None:
+      d->head = d->tail = new
+    else:
+      new->next = d->head
+      d->head = new
+  release(?d->lock)
+    
+def delete(d) returns result:
+  acquire(?d->lock)
+  let h = d->head:
+    if h == None:
+      result = None
+    else:
+      result = d->head->val
+      d->head = d->head->next
+      free(h)
+  release(?d->lock)
+  
+  
+def next(d) returns result:
+  acquire(?d->lock)
+  if d->head == None:
+    result = None
+  else:
+    if d->head->next == None:
+      result = d->head->val
+    else:
+      result = d->head
+      d->head = d->head->next
+      result->next = None
+      d->tail->next = result
+      d->tail = result
+      result = result->val
+  release(?d->lock)
+    
+
+
